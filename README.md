@@ -133,8 +133,6 @@ Skill is valid!
 按大杯方案应用“AGENTS 安全块”和“MCP inventory”两项改动，写入前先列出目标文件。
 ```
 
-![从报告到执行](assets/images/workflow-cn.png)
-
 更多示例：
 
 - [中杯 self-audit](examples/zhongbei-self-audit.md)
