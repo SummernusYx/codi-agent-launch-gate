@@ -1,16 +1,19 @@
 # Hooks
 
-Agent Launch Gate ships with two guardrails for project work.
+Agent Launch Gate ships with three guardrails for project work.
 
 ## 1. Commit Preview Hook
 
-Before committing, the Git hook generates a local HTML preview of staged changes:
+Before committing, the Git hook generates two local HTML pages:
 
 ```text
 .git/commit-preview/index.html
+.git/commit-preview/diff.html
 ```
 
-It opens the page and asks for:
+`index.html` is a GitHub-style release preview of `README.md`. `diff.html` is the technical staged diff.
+
+The hook opens the release preview and asks for:
 
 ```text
 APPROVE
@@ -34,7 +37,27 @@ git commit -m "message"
 Remove-Item Env:\SKIP_COMMIT_PREVIEW
 ```
 
-## 2. Long Request Planning Hook
+## 2. Push Release Preview Hook
+
+Before pushing, the Git hook generates and opens:
+
+```text
+.git/commit-preview/index.html
+```
+
+This page is the one to review before publishing to GitHub. It is intentionally closer to a GitHub repository homepage than a raw diff page: README first, images rendered, repo metadata on the side, and a link to the technical diff when needed.
+
+### Bypass
+
+Use only when you intentionally do not need the release preview:
+
+```powershell
+$env:SKIP_RELEASE_PREVIEW = "1"
+git push
+Remove-Item Env:\SKIP_RELEASE_PREVIEW
+```
+
+## 3. Long Request Planning Hook
 
 This one is not a Git hook. It happens before coding work starts.
 
