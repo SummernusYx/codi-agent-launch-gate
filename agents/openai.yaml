@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agent Launch Gate"
+  short_description: "Tiered release gates for AI agent apps."
+  default_prompt: "Use $agent-launch-gate to audit this AI agent project before release."
