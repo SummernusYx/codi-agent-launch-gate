@@ -2,7 +2,7 @@
 
 > AI Agent 上线前的安全门禁：把权限、工具、记忆、外部内容和发布证据放到同一张检查表里。
 
-[English](README_EN.md) · [示例](examples/) · [发布指南](docs/github-init-guide.md) · [发布检查清单](docs/release-checklist.md)
+[English](README_EN.md) · [示例](examples/) · [Hooks](docs/hooks.md) · [发布指南](docs/github-init-guide.md) · [发布检查清单](docs/release-checklist.md)
 
 ![Co迪上线门禁](assets/images/hero-cn.png)
 
