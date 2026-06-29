@@ -4,7 +4,7 @@
 
 [English](README_EN.md) · [示例](examples/) · [发布指南](docs/github-init-guide.md) · [发布检查清单](docs/release-checklist.md)
 
-![Co迪 Agent Launch Gate hero](assets/images/hero.png)
+![Co迪上线门禁](assets/images/hero-cn.svg)
 
 Agent 项目的风险，往往不只在代码里。
 
@@ -133,7 +133,7 @@ Skill is valid!
 按大杯方案应用“AGENTS 安全块”和“MCP inventory”两项改动，写入前先列出目标文件。
 ```
 
-![从报告到执行](assets/images/workflow.png)
+![从报告到执行](assets/images/workflow-cn.svg)
 
 更多示例：
 
