@@ -72,7 +72,7 @@ When a user request is longer than roughly 200 tokens, the agent should first sw
 The reusable local skill is:
 
 ```text
-E:\codex\.agents\skills\long-request-planner
+~/.codex/skills/long-request-planner
 ```
 
-Git cannot enforce this because Git only sees repository operations, not chat input. Codex skill routing can.
+Install or create that skill in your own Codex skills directory if you want the same planning gate. Git cannot enforce this because Git only sees repository operations, not chat input. Codex skill routing can.

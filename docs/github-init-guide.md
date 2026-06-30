@@ -1,59 +1,26 @@
-# GitHub Init Guide
+# GitHub Publishing Guide
 
-这份指南教你把 `E:\codex\agent-launch-gate` 复制到一个干净的新 GitHub repo `codi-agent-launch-gate`，再初始化、提交、推送。
+这份文档是给维护者看的：如果你 fork 了这个项目，或想把自己的 Codex skill 打包成类似的开源仓库，可以按下面的流程发布。
 
-This guide shows how to copy `E:\codex\agent-launch-gate` into a clean GitHub repo `codi-agent-launch-gate`, initialize it, commit it, and push it.
+This guide is for maintainers: use it when you fork this project or package another Codex skill as an open-source repository.
 
-## 0. 先理解当前问题
+## 1. 准备一个干净仓库目录
 
-现在这个项目放在 `E:\codex` 下面，而 `E:\codex\.gitignore` 默认忽略几乎所有文件。也就是说，`agent-launch-gate` 适合作为工作目录，但不适合直接在父仓库里发布。
+不要直接从一个很大的工作区里发布。更稳的做法是新建一个干净目录，只放最终要开源的文件。
 
-Current issue: the project lives under `E:\codex`, whose parent `.gitignore` ignores almost everything. So `agent-launch-gate` is fine as a working folder, but not ideal as the publishing repo.
-
-更稳的做法是：新建一个干净目录，把整个项目复制过去，在那个目录里重新 `git init`。
-
-The safer path: create a clean folder, copy the project there, and run `git init` in that new folder.
-
-## 1. 准备一个干净目录
-
-建议放在：
-
-Recommended location:
+Do not publish directly from a broad workspace. Create a clean directory that contains only the files intended for release.
 
 ```powershell
-E:\github\codi-agent-launch-gate
+New-Item -ItemType Directory -Force -Path '<your-clean-repo-path>'
+Copy-Item -Recurse -Force -LiteralPath '<your-skill-source>\*' -Destination '<your-clean-repo-path>'
+Set-Location '<your-clean-repo-path>'
 ```
 
-如果 `E:\github` 不存在，先创建：
+## 2. 检查应该包含的文件
 
-If `E:\github` does not exist:
+至少确认这些文件和目录存在：
 
-```powershell
-New-Item -ItemType Directory -Force -Path 'E:\github'
-```
-
-## 2. 复制项目
-
-如果目标目录已经存在，先确认里面没有重要文件。下面这条命令会创建或覆盖同名文件，但不会删除目标目录里额外存在的文件。
-
-If the target folder already exists, make sure it does not contain important files. This command creates or overwrites matching files, but does not delete extra files already in the target.
-
-```powershell
-New-Item -ItemType Directory -Force -Path 'E:\github\codi-agent-launch-gate'
-Copy-Item -Recurse -Force -LiteralPath 'E:\codex\agent-launch-gate\*' -Destination 'E:\github\codi-agent-launch-gate'
-```
-
-复制后检查：
-
-Check the result:
-
-```powershell
-Get-ChildItem -LiteralPath 'E:\github\codi-agent-launch-gate'
-```
-
-你应该看到：
-
-You should see:
+Make sure these files and folders exist:
 
 ```text
 SKILL.md
@@ -64,44 +31,14 @@ SECURITY.md
 .gitignore
 install.ps1
 install.sh
-agents
-assets
-docs
-examples
-references
+agents/
+assets/
+docs/
+examples/
+references/
 ```
 
-## 3. 进入新目录
-
-```powershell
-Set-Location 'E:\github\codi-agent-launch-gate'
-```
-
-确认当前位置：
-
-Confirm location:
-
-```powershell
-Get-Location
-```
-
-## 4. 初始化 Git
-
-```powershell
-git init
-```
-
-检查状态：
-
-```powershell
-git status --short
-```
-
-这时应该能看到 README、SKILL、references、assets、examples 等文件都作为未跟踪文件出现。
-
-You should now see README, SKILL, references, assets, and examples as untracked files.
-
-## 5. 本地校验 skill
+## 3. 验证 skill
 
 如果你的系统里有 Codex 的 `quick_validate.py`：
 
@@ -119,120 +56,107 @@ Expected:
 Skill is valid!
 ```
 
-## 6. 检查是否有不该提交的文件
+## 4. 检查敏感内容
 
-```powershell
-git status --short --untracked-files=all
-```
+提交前至少做一次关键词搜索：
 
-再做一次敏感词搜索：
-
-Run a basic secret keyword search:
+Run a basic secret keyword search before committing:
 
 ```powershell
 rg --no-ignore -n "(?i)(api[_-]?key|secret|token|password|private[_-]?key|BEGIN RSA|BEGIN OPENSSH|cookie|authorization)"
 ```
 
-如果搜到真实密钥、cookie、token，不要提交。
+如果搜到真实密钥、cookie、token、私有路径或客户数据，不要提交。
 
-If it finds real secrets, cookies, or tokens, do not commit.
+If it finds real secrets, cookies, tokens, private paths, or customer data, do not commit.
 
-## 7. 第一次提交
+## 5. 初始化并提交
 
 ```powershell
+git init
 git add .
-git commit -m "Initial release of Agent Launch Gate"
+git commit -m "Initial release"
 ```
 
-如果 Git 提示没有设置用户名邮箱：
+如果 Git 提示没有设置用户名和邮箱，可以只在当前仓库里设置：
 
-If Git asks for name/email:
+If Git asks for name/email, set them for this repository only:
 
 ```powershell
-git config --global user.name "你的名字"
-git config --global user.email "你的邮箱"
+git config user.name "YOUR_NAME"
+git config user.email "YOUR_EMAIL"
 ```
 
-然后重新提交。
-
-Then run the commit again.
-
-## 8. 在 GitHub 新建空仓库
-
-在 GitHub 网页上：
+## 6. 在 GitHub 新建空仓库
 
 On GitHub:
 
-1. 点右上角 `+`
-2. 选择 `New repository`
-3. Repository name 填 `codi-agent-launch-gate`
-4. Visibility 先选 `Private` 更稳，确认无误后再改 Public
-5. 不要勾选 `Add a README file`
-6. 不要勾选 `.gitignore`
-7. 不要勾选 `LICENSE`
-8. 创建仓库
+1. Click `New repository`
+2. Enter the repository name
+3. Choose `Private` first if you want one more review pass, or `Public` if you are ready to publish
+4. Do not add a README
+5. Do not add `.gitignore`
+6. Do not add a license
+7. Create the repository
 
-为什么不要勾选这些？因为本地已经有 README、.gitignore 和 LICENSE。GitHub 再生成一份会造成首次推送冲突。
+这些文件已经在本地仓库里。让 GitHub 再生成一份，容易造成首次推送冲突。
 
-Why leave those unchecked? This repo already has README, `.gitignore`, and LICENSE. Letting GitHub generate them can create first-push conflicts.
+Those files already exist locally. Letting GitHub generate them can create first-push conflicts.
 
-## 9. 连接远程仓库
+## 7. 连接远端并推送
 
-GitHub 创建仓库后，会给你一个地址。形如：
+GitHub 创建仓库后，会给你一个地址，形如：
 
 After creating the repo, GitHub shows a URL like:
 
 ```text
-https://github.com/YOUR_NAME/codi-agent-launch-gate.git
+https://github.com/YOUR_NAME/YOUR_REPO.git
 ```
 
-在本地运行：
+然后运行：
 
-Run locally:
+Then run:
 
 ```powershell
-git remote add origin https://github.com/YOUR_NAME/codi-agent-launch-gate.git
+git remote add origin https://github.com/YOUR_NAME/YOUR_REPO.git
 git branch -M main
 git push -u origin main
 ```
 
-把 `YOUR_NAME` 换成你的 GitHub 用户名或组织名。
-
-Replace `YOUR_NAME` with your GitHub username or organization.
-
-## 10. 推送后检查
+## 8. 推送后检查
 
 打开 GitHub 仓库页面，检查：
 
 Open the GitHub repo page and check:
 
 - README 能正常显示
-- `SKILL.md` 在根目录
-- `references/`、`assets/`、`examples/`、`docs/` 都存在
-- README 里的 example 链接能点开
-- 没有提交本机私密路径、token、cookie、API key
+- README images render correctly
+- `SKILL.md` is in the repository root
+- `references/`, `assets/`, `examples/`, and `docs/` exist
+- README links open without 404s
+- Examples do not contain private paths, tokens, cookies, API keys, or customer data
 
-## 11. 什么时候改成 Public
+## 9. 什么时候公开
 
 建议先保持 Private，完成这些检查后再 Public：
 
 Keep it Private first. Make it Public after:
 
-- README 看起来顺
-- LICENSE 确认就是你想要的
+- README 首屏看起来清楚
+- LICENSE 是你想要的许可证
 - SECURITY.md 没有暴露私人联系方式
 - examples 没有私人路径或项目名
-- 本地跑过 `quick_validate.py`
-- 至少做过一次真实项目中杯试跑
+- 本地跑过 skill 验证
+- 至少用一个真实项目试跑过核心模式
 
-## 12. 如果你想用 GitHub CLI
+## 10. 如果你想用 GitHub CLI
 
 如果安装并登录了 `gh`，可以不用网页创建仓库：
 
 If `gh` is installed and logged in:
 
 ```powershell
-gh repo create codi-agent-launch-gate --private --source . --remote origin --push
+gh repo create YOUR_REPO --private --source . --remote origin --push
 ```
 
 之后如果要改成公开：
@@ -240,7 +164,7 @@ gh repo create codi-agent-launch-gate --private --source . --remote origin --pus
 To make it public later:
 
 ```powershell
-gh repo edit codi-agent-launch-gate --visibility public
+gh repo edit YOUR_REPO --visibility public
 ```
 
 这一步会把信息发到 GitHub。执行前确认仓库里没有敏感内容。

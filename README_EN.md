@@ -2,7 +2,7 @@
 
 > A pre-launch safety gate for AI agent apps: permissions, tools, memory, external content, and release evidence in one review workflow.
 
-[中文](README.md) · [Examples](examples/) · [Hooks](docs/hooks.md) · [GitHub Guide](docs/github-init-guide.md) · [Release Checklist](docs/release-checklist.md)
+[中文](README.md) · [Examples](examples/) · [Hooks](docs/hooks.md) · [Release Checklist](docs/release-checklist.md)
 
 ![Co迪 Agent Launch Gate hero](assets/images/hero.png)
 
