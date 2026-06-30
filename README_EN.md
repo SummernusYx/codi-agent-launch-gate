@@ -68,7 +68,7 @@ The score is not a pass. Critical blockers override the number. Unapproved exter
 ### 1. Clone
 
 ```bash
-git clone https://github.com/YOUR_NAME/codi-agent-launch-gate.git
+git clone https://github.com/SummernusYx/codi-agent-launch-gate.git
 cd codi-agent-launch-gate
 ```
 

@@ -68,7 +68,7 @@ Agent Launch Gate 检查 20 个维度。每项 0-5 分，总分 100。
 ### 1. 克隆仓库
 
 ```powershell
-git clone https://github.com/YOUR_NAME/codi-agent-launch-gate.git
+git clone https://github.com/SummernusYx/codi-agent-launch-gate.git
 cd codi-agent-launch-gate
 ```
 
